@@ -9,19 +9,75 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import proIcon from '../../assets/icons/proIcon.png';
 import energyIcon from '../../assets/icons/energyIcon.png';
+import playIcon from '../../assets/icons/playIcon.png';
+
 import workoutbg from '../../assets/images/workoutbg.png';
 import Progress from '../components/Progress';
 import dietPlan from '../../assets/images/dietPlan.png';
 import shapeMind from '../../assets/icons/shapeMind.png';
 import mindPower from '../../assets/images/mindPower.png';
-
+import {data} from '../../data';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 SystemNavigationBar.navigationHide();
 const Home = () => {
+  const array = [1, 2, 3, 4, 5];
+  const renderItem = ({index, item}) => {
+    return (
+      <ImageBackground
+        source={item.poster}
+        style={{
+          flex: 1,
+          borderRadius: 15,
+          width: width * 0.65,
+          height: '100%',
+          marginRight: 20,
+          elevation: 15,
+          overflow: 'hidden',
+        }}
+        resizeMode="cover">
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(16, 70, 87, 0.5)',
+            paddingTop: 10,
+            paddingLeft: 5,
+          }}>
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: '500',
+              lineHeight: 17,
+              color: 'white',
+            }}>
+            {item.title}
+          </Text>
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={playIcon}
+              style={{
+                width: 30,
+                height: 30,
+                tintColor: '#FFFFFF',
+              }}
+            />
+          </View>
+        </View>
+      </ImageBackground>
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -288,16 +344,24 @@ const Home = () => {
               lineHeight: 19,
               paddingVertical: 10,
               paddingLeft: 5,
+              color: 'rgba(9, 16, 17, 1)',
             }}>
             CHALLENGES
           </Text>
           <View
             style={{
               flex: 1,
-              borderWidth: 1,
-              borderRadius: 15,
-              width: '80%',
-            }}></View>
+            }}>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              horizontal
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.id}
+              decelerationRate={'normal'}
+            />
+          </View>
         </View>
       </View>
       <ScrollView
